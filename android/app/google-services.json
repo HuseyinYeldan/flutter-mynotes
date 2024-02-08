@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1076024540059",
+    "project_id": "flutter-mynotes-learning",
+    "storage_bucket": "flutter-mynotes-learning.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076024540059:android:efa16d98613a1b609b7f3e",
+        "android_client_info": {
+          "package_name": "com.huseyinyeldan.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3rqEUhGJUr3mgq_R0gRNVwAqI2Yryg74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
