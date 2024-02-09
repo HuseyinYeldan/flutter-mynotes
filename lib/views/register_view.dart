@@ -3,14 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/firebase_options.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email = TextEditingController();
   late final TextEditingController _password = TextEditingController();
 
@@ -29,7 +29,7 @@ class _LoginViewState extends State<LoginView> {
         backgroundColor: const Color.fromRGBO(60, 120, 240, 1),
         foregroundColor: Colors.white,
         titleTextStyle:const TextStyle(fontWeight:FontWeight.w900, fontSize: 26),
-        title: const Text('Giriş Yap'),
+        title: const Text('Kayıt Ol'),
       ),
       body: FutureBuilder(
           future: Firebase.initializeApp(
@@ -59,21 +59,15 @@ class _LoginViewState extends State<LoginView> {
                           final email = _email.text;
                           final password = _password.text;
                           final userCredential = await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
+                              .createUserWithEmailAndPassword(
                                   email: email, password: password);
                           print(userCredential);
                         } on FirebaseAuthException catch (e) {
-                          if (e.code == 'invalid-credential') {
-                            print('User not found.');
-                          } else if (e.code == 'too-many-requests') {
-                            print(
-                                "You've tried to login too many times, try again later or change your password.");
-                          } else {
-                            print(e.code);
-                          }
+                          print('There is an error with your registeration.');
+                          print(e.code);
                         }
                       },
-                      child: const Text('Giriş Yap'),
+                      child: const Text('Kayıt Ol'),
                     ),
                   ],
                 );
