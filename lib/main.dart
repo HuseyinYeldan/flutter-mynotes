@@ -34,27 +34,52 @@ class HomePage extends StatelessWidget {
         title: const Text('Ana Sayfa'),
       ),
       body: FutureBuilder(
-          future: Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform,
-          ),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                // final user = FirebaseAuth.instance.currentUser;
-                // if (user?.emailVerified ?? false) {
-                //   return const Text('Tamamlandı.');
-                // } else {
-                //   return const VerifyEmailView();
-                // }
-                return const LoginView();
-              default:
-                return const Text('Loading...');
-            }
-          }),
+        future: Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        ),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              // final user = FirebaseAuth.instance.currentUser;
+              // if (user?.emailVerified ?? false) {
+              //   return const Text('Tamamlandı.');
+              // } else {
+              //   return const VerifyEmailView();
+              // }
+              return const LoginView();
+            default:
+              return const LoadingScreen(); // Replaced with loading screen
+
+          }
+        },
+      ),
     );
   }
 }
 
+class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(), // Loading indicator
+          SizedBox(height: 20), // Space between indicator and text
+          Text(
+            'Yükleniyor...',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key});
 
