@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer' as devtools show log;
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -50,18 +51,18 @@ class _LoginViewState extends State<LoginView> {
               try {
                 final email = _email.text;
                 final password = _password.text;
-                final userCredential = await FirebaseAuth.instance
+                  await FirebaseAuth.instance
                     .signInWithEmailAndPassword(
                         email: email, password: password);
-                print(userCredential);
-              } on FirebaseAuthException catch (e) {
+                  Navigator.of(context).pushNamedAndRemoveUntil('/notlar/', (route) => false);
+                } on FirebaseAuthException catch (e) {
                 if (e.code == 'invalid-credential') {
-                  print('User not found.');
+                  devtools.log('User not found.');
                 } else if (e.code == 'too-many-requests') {
-                  print(
+                  devtools.log(
                       "You've tried to login too many times, try again later or change your password.");
                 } else {
-                  print(e.code);
+                  devtools.log(e.code);
                 }
               }
             },
