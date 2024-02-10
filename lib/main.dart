@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/firebase_options.dart';
 import 'package:mynotes/views/login_view.dart';
+import 'package:mynotes/views/register_view.dart';
+import 'package:mynotes/views/verify_email_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,11 +12,15 @@ void main() {
     MaterialApp(
       title: 'Pro Tesisat',
       theme: ThemeData(
-        primaryColor: const Color.fromRGBO(200, 30, 70, 1),
+        primaryColor: const Color.fromARGB(255, 30, 194, 200),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
       home: const HomePage(),
+      routes: {
+        '/giris/':(context) => const LoginView(),
+        '/kayit/':(context) => const RegisterView(),
+      },
     ),
   );
 }
@@ -24,36 +30,31 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: const Color.fromRGBO(60, 120, 240, 1),
-        foregroundColor: Colors.white,
-        titleTextStyle:
-            const TextStyle(fontWeight: FontWeight.w900, fontSize: 26),
-        title: const Text('Ana Sayfa'),
-      ),
-      body: FutureBuilder(
+    return FutureBuilder(
         future: Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         ),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              // final user = FirebaseAuth.instance.currentUser;
-              // if (user?.emailVerified ?? false) {
-              //   return const Text('Tamamlandı.');
-              // } else {
-              //   return const VerifyEmailView();
-              // }
-              return const LoginView();
+              final user = FirebaseAuth.instance.currentUser;
+              if(user != null){
+                if(user.emailVerified){
+                  const Text('Email is verified');
+                }
+                else{
+                  return const VerifyEmailView();
+                }
+              }
+              else{
+                return const LoginView();
+              }
+              return const Text('Ana Sayfa');
             default:
               return const LoadingScreen(); // Replaced with loading screen
-
           }
         },
-      ),
-    );
+      );
   }
 }
 
@@ -77,29 +78,6 @@ class LoadingScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-class VerifyEmailView extends StatefulWidget {
-  const VerifyEmailView({super.key});
-
-  @override
-  State<VerifyEmailView> createState() => _VerifyEmailViewState();
-}
-
-class _VerifyEmailViewState extends State<VerifyEmailView> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text('Lütfen devam etmek için e-posta hesabınızı onaylayın.'),
-        TextButton(
-            onPressed: () async {
-              final user = FirebaseAuth.instance.currentUser;
-              await user?.sendEmailVerification();
-            },
-            child: const Text('Onay Linki Yolla')),
-      ],
     );
   }
 }
