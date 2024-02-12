@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -53,19 +54,15 @@ class _LoginViewState extends State<LoginView> {
               try {
                 final email = _email.text;
                 final password = _password.text;
-                  await FirebaseAuth.instance
-                    .signInWithEmailAndPassword(
-                        email: email, password: password);
-                  Navigator.of(context).pushNamedAndRemoveUntil(notesRoute, (route) => false);
-                } on FirebaseAuthException catch (e) {
-                if (e.code == 'invalid-credential') {
-                  devtools.log('User not found.');
-                } else if (e.code == 'too-many-requests') {
-                  devtools.log(
-                      "You've tried to login too many times, try again later or change your password.");
-                } else {
-                  devtools.log(e.code);
-                }
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: email, password: password);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(notesRoute, (route) => false);
+              } on FirebaseAuthException catch (e) {
+                await showErrorDialog(context, e.message.toString());
+              }
+              catch(e){
+                await showErrorDialog(context, e.toString());
               }
             },
             child: const Text('Giriş Yap'),

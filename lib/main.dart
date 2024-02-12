@@ -104,7 +104,11 @@ class _NotesViewState extends State<NotesView> {
           )
         ],
       ),
-      body: const Text('Ana sayfa'),
+      body: const Column(
+        children: [
+          Text('Ana Sayfa'),
+        ],
+      ),
     );
   }
 }
