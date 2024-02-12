@@ -26,10 +26,10 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: const Color.fromRGBO(60, 120, 240, 1),
-        foregroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 61, 39, 10),
+        foregroundColor: const Color.fromARGB(255, 255, 200, 70),
         titleTextStyle:
-            const TextStyle(fontWeight: FontWeight.w900, fontSize: 26),
+            const TextStyle(fontWeight: FontWeight.w900, fontSize: 26, color:  Color.fromARGB(255, 255, 200, 70)),
         title: const Text('Kayıt Ol!'),
       ),
       body: Column(

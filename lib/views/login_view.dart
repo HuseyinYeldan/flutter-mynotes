@@ -28,10 +28,10 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: const Color.fromRGBO(60, 120, 240, 1),
-        foregroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 61, 39, 10),
+        foregroundColor: const Color.fromARGB(255, 255, 200, 70),
         titleTextStyle:
-            const TextStyle(fontWeight: FontWeight.w900, fontSize: 26),
+            const TextStyle(fontWeight: FontWeight.w900, fontSize: 26, color:  Color.fromARGB(255, 255, 200, 70)),
         title: const Text('Giriş Yap!'),
       ),
       body: Column(
