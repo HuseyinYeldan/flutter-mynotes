@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/services/auth/auth_exceptions.dart';
+import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
@@ -52,14 +53,20 @@ class _RegisterViewState extends State<RegisterView> {
               try {
                 final email = _email.text;
                 final password = _password.text;
-                await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                        email: email, password: password);
+                await AuthService.firebase().createUser(email: email, password: password);
                 Navigator.of(context).pushNamed(verifyEmailRoute);
-                final currentUser =  FirebaseAuth.instance.currentUser;
-                await currentUser?.sendEmailVerification();
-              } on FirebaseAuthException catch (e) {
-                await showErrorDialog(context, e.message.toString());
+                AuthService.firebase().sendEmailVerification();
+              } on WeakPasswordAuthException {
+                await showErrorDialog(context, 'Şifre en az 6 karakter olmalı.');
+              }
+              on EmailAlreadyInUseAuthException {
+                await showErrorDialog(context, 'Bu e-posta kullanılıyor.');
+              }
+              on InvalidEmailAuthException {
+                await showErrorDialog(context, 'E-posta yanlış.');
+              }
+              on GenericAuthException {
+                await showErrorDialog(context, 'Bir hata oluştu.');
               }
               catch(e){
                 await showErrorDialog(context, e.toString());

@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/enums/menu_action.dart';
-import 'package:mynotes/services/auth/auth_exceptions.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
-import 'package:mynotes/utilities/show_error_dialog.dart';
-import 'package:mynotes/views/notes_view.dart';
 
-class VerifyEmailView extends StatefulWidget {
-  const VerifyEmailView({super.key});
+class NotesView extends StatefulWidget {
+  const NotesView({super.key});
 
   @override
-  State<VerifyEmailView> createState() => _VerifyEmailViewState();
+  State<NotesView> createState() => _NotesViewState();
 }
 
-class _VerifyEmailViewState extends State<VerifyEmailView> {
+class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 61, 39, 10),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 61, 39, 10),
         foregroundColor: const Color.fromARGB(255, 255, 200, 70),
-        titleTextStyle:
-            const TextStyle(fontWeight: FontWeight.w900, fontSize: 26, color:  Color.fromARGB(255, 255, 200, 70)),
-        title: const Text('E-Posta Onay'),
+        titleTextStyle: const TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 26,
+            color: Color.fromARGB(255, 255, 200, 70)),
+        title: const Text('Notlar'),
         actions: [
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
@@ -51,30 +51,37 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          children: [
-            const Text('Lütfen devam etmek için e-postanızı onaylayın.'),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(loginRoute, (route) => false);
-                },
-                child: const Text('Giriş Yap')),
-            const Text(
-                'E-postanıza onay linki gelemdi mi? Aşşağıdaki butona tıklayarak yollayabilirsiniz. (Spam kutusuna bakmayı unutmayın.)'),
-            TextButton(
-                onPressed: () async {
-                  try {
-                    await AuthService.firebase().sendEmailVerification();
-                  } on GenericAuthException {
-                    await showErrorDialog(context,'Bir hata oluştu.');
-                  }
-                },
-                child: const Text('Tekrar Onay Linki Yolla'))
-          ],
-        ),
+      body: const Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(12, 4, 12, 4),
+            child: Text('Ana Sayfa'),
+          ),
+        ],
       ),
     );
   }
+}
+
+Future<bool> showLogOutDialog(BuildContext context) {
+  return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Çıkış Yap'),
+          content: const Text('Çıkış yapmak istediğine emin misin?'),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const Text('İptal')),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: const Text('Çıkış'))
+          ],
+        );
+      }).then((value) => value ?? false);
 }
