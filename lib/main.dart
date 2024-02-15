@@ -13,8 +13,6 @@ void main() {
     MaterialApp(
       title: 'Pro Tesisat',
       theme: ThemeData(
-        primaryColor: const Color.fromARGB(255, 30, 194, 200),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
       home: const HomePage(),

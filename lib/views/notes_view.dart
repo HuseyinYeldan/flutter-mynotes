@@ -14,16 +14,35 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 61, 39, 10),
+      backgroundColor: const Color.fromRGBO(0, 15, 55, 1),
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 61, 39, 10),
+        toolbarHeight: 100,
+        backgroundColor: const Color.fromRGBO(0, 32, 114, 1),
         foregroundColor: const Color.fromARGB(255, 255, 200, 70),
         titleTextStyle: const TextStyle(
             fontWeight: FontWeight.w900,
-            fontSize: 26,
+            fontSize: 22,
             color: Color.fromARGB(255, 255, 200, 70)),
-        title: const Text('Notlar'),
+        title: const Row(
+          children: [
+            Text(
+              'Hoşgeldin, ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+                color: Color.fromARGB(255, 255, 200, 70),
+              ),
+            ),
+            Text(
+              'Kullanıcı Adı',
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 22,
+                color: Color.fromARGB(255, 255, 200, 70),
+              ),
+            ),
+          ],
+        ),
         actions: [
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
@@ -51,13 +70,144 @@ class _NotesViewState extends State<NotesView> {
           )
         ],
       ),
-      body: const Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(12, 4, 12, 4),
-            child: Text('Ana Sayfa'),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          const Text('This is a message to show'),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.edit),
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.clear),
+                            padding: const EdgeInsets.all(0),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          const Text('This is a message to show'),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.edit),
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.clear),
+                            padding: const EdgeInsets.all(0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          const Text('This is a message to show'),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.edit),
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.clear),
+                            padding: const EdgeInsets.all(0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          const Text('This is a message to show'),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.edit),
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.clear),
+                            padding: const EdgeInsets.all(0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
