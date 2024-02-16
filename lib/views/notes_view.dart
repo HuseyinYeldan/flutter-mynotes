@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/enums/menu_action.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
+import 'package:mynotes/services/crud/notes_service.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
@@ -11,6 +12,21 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
+  late final NotesService _notesService;
+  String get userEmail => AuthService.firebase().currentUser!.email!;
+
+  @override
+  void initState() {
+    _notesService = NotesService();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _notesService.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,144 +86,25 @@ class _NotesViewState extends State<NotesView> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          const Text('This is a message to show'),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.edit),
-                            padding: const EdgeInsets.all(0),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.clear),
-                            padding: const EdgeInsets.all(0),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          const Text('This is a message to show'),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.edit),
-                            padding: const EdgeInsets.all(0),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.clear),
-                            padding: const EdgeInsets.all(0),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          const Text('This is a message to show'),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.edit),
-                            padding: const EdgeInsets.all(0),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.clear),
-                            padding: const EdgeInsets.all(0),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          const Text('This is a message to show'),
-                          const Spacer(),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.edit),
-                            padding: const EdgeInsets.all(0),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.clear),
-                            padding: const EdgeInsets.all(0),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: FutureBuilder(
+        future: _notesService.getOrCreateUser(email: userEmail),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return StreamBuilder(
+                  stream: _notesService.allNotes,
+                  builder: ((context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return const Text('Notlar bekleniyor...');
+                      default:
+                        return const CircularProgressIndicator();
+                    }
+                  }));
+            default:
+              return const CircularProgressIndicator();
+          }
+        },
       ),
     );
   }
