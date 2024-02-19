@@ -32,34 +32,39 @@ class _NotesViewState extends State<NotesView> {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(0, 15, 55, 1),
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 80,
         backgroundColor: const Color.fromRGBO(0, 32, 114, 1),
         foregroundColor: const Color.fromARGB(255, 255, 200, 70),
         titleTextStyle: const TextStyle(
             fontWeight: FontWeight.w900,
             fontSize: 22,
             color: Color.fromARGB(255, 255, 200, 70)),
-        title: const Row(
+        title: Column(
           children: [
-            Text(
-              'Hoşgeldin, ',
+            const Text(
+              'Hoşgeldin',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 22,
+                fontSize: 18,
                 color: Color.fromARGB(255, 255, 200, 70),
               ),
             ),
             Text(
-              'Kullanıcı Adı',
-              style: TextStyle(
+              AuthService.firebase().currentUser!.email.toString(),
+              style: const TextStyle(
                 fontWeight: FontWeight.w300,
-                fontSize: 22,
+                fontSize: 16,
                 color: Color.fromARGB(255, 255, 200, 70),
               ),
             ),
           ],
         ),
         actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(newNoteRoute);
+              },
+              icon: const Icon(Icons.add)),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
@@ -96,13 +101,29 @@ class _NotesViewState extends State<NotesView> {
                   builder: ((context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return const Text('Notlar bekleniyor...');
+                        return const Center(
+                            child: Text(
+                          'Notlar bekleniyor...',
+                          style: TextStyle(
+                            color: Colors.amber,
+                          ),
+                        ));
                       default:
-                        return const CircularProgressIndicator();
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.amber,
+                            color: Colors.white,
+                          ),
+                        );
                     }
                   }));
             default:
-              return const CircularProgressIndicator();
+              return const Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.amber,
+                  color: Colors.white,
+                ),
+              );
           }
         },
       ),

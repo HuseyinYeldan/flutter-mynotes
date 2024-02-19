@@ -1,32 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/enums/menu_action.dart';
-import 'package:mynotes/services/auth/auth_exceptions.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
-import 'package:mynotes/utilities/show_error_dialog.dart';
 import 'package:mynotes/views/notes/notes_view.dart';
 
-class VerifyEmailView extends StatefulWidget {
-  const VerifyEmailView({super.key});
+class NewNoteView extends StatefulWidget {
+  const NewNoteView({super.key});
 
   @override
-  State<VerifyEmailView> createState() => _VerifyEmailViewState();
+  State<NewNoteView> createState() => _NewNoteViewState();
 }
 
-class _VerifyEmailViewState extends State<VerifyEmailView> {
+class _NewNoteViewState extends State<NewNoteView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 61, 39, 10),
+        toolbarHeight: 80,
+        backgroundColor: const Color.fromRGBO(0, 32, 114, 1),
         foregroundColor: const Color.fromARGB(255, 255, 200, 70),
         titleTextStyle: const TextStyle(
             fontWeight: FontWeight.w900,
-            fontSize: 26,
+            fontSize: 22,
             color: Color.fromARGB(255, 255, 200, 70)),
-        title: const Text('E-Posta Onay'),
+        title: const Text(
+          'Yeni Not Ekle',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Color.fromARGB(255, 255, 200, 70),
+          ),
+        ),
         actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(newNoteRoute);
+              },
+              icon: const Icon(Icons.add)),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
@@ -53,27 +63,11 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           )
         ],
       ),
-      body: Center(
+      body: const Padding(
+        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Column(
           children: [
-            const Text('Lütfen devam etmek için e-postanızı onaylayın.'),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(loginRoute, (route) => false);
-                },
-                child: const Text('Giriş Yap')),
-            const Text(
-                'E-postanıza onay linki gelemdi mi? Aşşağıdaki butona tıklayarak yollayabilirsiniz. (Spam kutusuna bakmayı unutmayın.)'),
-            TextButton(
-                onPressed: () async {
-                  try {
-                    await AuthService.firebase().sendEmailVerification();
-                  } on GenericAuthException {
-                    await showErrorDialog(context, 'Bir hata oluştu.');
-                  }
-                },
-                child: const Text('Tekrar Onay Linki Yolla'))
+            Text('Yeni not...'),
           ],
         ),
       ),
